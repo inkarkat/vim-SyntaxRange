@@ -33,31 +33,6 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 "* RETURN VALUES:
 "   None.
 "******************************************************************************
-    call SyntaxRange#IncludeEx(
-    \   printf('%s keepend start="%s" end="%s" containedin=ALL',
-    \       (a:0 ? 'matchgroup=' . a:1 : ''),
-    \       a:startPattern,
-    \       a:endPattern
-    \   ),
-    \   a:filetype
-    \)
-endfunction
-function! SyntaxRange#IncludeEx( regionDefinition, filetype )
-"******************************************************************************
-"* PURPOSE:
-"   Define a syntax region from a:regionDefinition that includes the syntax for
-"   a:filetype.
-"* ASSUMPTIONS / PRECONDITIONS:
-"   None.
-"* EFFECTS / POSTCONDITIONS:
-"   Defines a syntax region synInclude{filetype} for the current buffer.
-"* INPUTS:
-"   a:regionDefinition  |:syn-region| definition with at least |:syn-start| and
-"			|:syn-end|.
-"   a:filetype      The filetype syntax to use in the region.
-"* RETURN VALUES:
-"   None.
-"******************************************************************************
     let l:syntaxGroup = 'synInclude' . toupper(a:filetype[0]) . tolower(a:filetype[1:])
 
     if exists('b:current_syntax')
@@ -75,9 +50,11 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 	unlet b:current_syntax
     endif
 
-    execute printf('syntax region %s %s contains=@%s',
+    execute printf('syntax region %s %s keepend start="%s" end="%s" contains=@%s',
     \   l:syntaxGroup,
-    \   a:regionDefinition,
+    \   (a:0 ? 'matchgroup=' . a:1 : ''),
+    \   a:startPattern,
+    \   a:endPattern,
     \   l:syntaxGroup
     \)
 endfunction
