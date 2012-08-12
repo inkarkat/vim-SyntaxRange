@@ -12,12 +12,17 @@
 "
 " REVISION	DATE		REMARKS
 "	001	05-Jul-2012	file creation
+let s:save_cpo = &cpo
+set cpo&vim
 
 function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 "******************************************************************************
 "* PURPOSE:
 "   Define a syntax region from a:startPattern to a:endPattern that includes the
-"   syntax for a:filetype.
+"   syntax for a:filetype. For the common case, this automatically ensures that
+"   a contained match does not extend beyond a:endPattern (though contained
+"   syntax items with |:syn-extend| break that), and that the patterns are also
+"   matched inside all existing (also contained) syntax items.
 "* ASSUMPTIONS / PRECONDITIONS:
 "   None.
 "* EFFECTS / POSTCONDITIONS:
@@ -30,6 +35,33 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 "   a:filetype      The filetype syntax to use in the region.
 "   a:matchGroup    Optional highlight group for the a:startPattern and
 "		    a:endPattern matches themselves |:syn-matchgroup|.
+"* RETURN VALUES:
+"   None.
+"******************************************************************************
+    call SyntaxRange#IncludeEx(
+    \   printf('%s keepend start="%s" end="%s" containedin=ALL',
+    \       (a:0 ? 'matchgroup=' . a:1 : ''),
+    \       a:startPattern,
+    \       a:endPattern
+    \   ),
+    \   a:filetype
+    \)
+endfunction
+function! SyntaxRange#IncludeEx( regionDefinition, filetype )
+"******************************************************************************
+"* PURPOSE:
+"   Define a syntax region from a:regionDefinition that includes the syntax for
+"   a:filetype. Use this extended function when you have multiple start- or end
+"   patterns, skip patterns, want to specify match offsets, control the
+"   containment, etc.
+"* ASSUMPTIONS / PRECONDITIONS:
+"   None.
+"* EFFECTS / POSTCONDITIONS:
+"   Defines a syntax region synInclude{filetype} for the current buffer.
+"* INPUTS:
+"   a:regionDefinition  |:syn-region| definition with at least |:syn-start| and
+"			|:syn-end|.
+"   a:filetype      The filetype syntax to use in the region.
 "* RETURN VALUES:
 "   None.
 "******************************************************************************
@@ -50,11 +82,9 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 	unlet b:current_syntax
     endif
 
-    execute printf('syntax region %s %s keepend start="%s" end="%s" contains=@%s',
+    execute printf('syntax region %s %s contains=@%s',
     \   l:syntaxGroup,
-    \   (a:0 ? 'matchgroup=' . a:1 : ''),
-    \   a:startPattern,
-    \   a:endPattern,
+    \   a:regionDefinition,
     \   l:syntaxGroup
     \)
 endfunction
@@ -63,6 +93,8 @@ endfunction
 function! SyntaxRange#SyntaxIgnore( startLine, endLine )
     if a:startLine == a:endLine
 	execute printf('syntax match synIgnoreLine /\%%%dl/', a:startLine)
+    elseif a:startLine < a:endLine && a:endLine == line('$')
+	execute printf('syntax match synIgnoreLine /\%%>%dl/', (a:startLine - 1))
     else
 	execute printf('syntax match synIgnoreLine /\%%>%dl\%%<%dl/', (a:startLine - 1), (a:endLine + 1))
     endif
@@ -71,11 +103,14 @@ endfunction
 function! SyntaxRange#SyntaxInclude( startLine, endLine, filetype )
     call SyntaxRange#Include(
     \   printf('\%%%dl', a:startLine),
-    \   printf('\%%%dl', (a:endLine + 1)),
+    \   (a:startLine < a:endLine && a:endLine == line('$') ?
+    \       '\%$' :
+    \       printf('\%%%dl', (a:endLine + 1))
+    \   ),
     \   a:filetype
     \)
 endfunction
 
-
-
+let &cpo = s:save_cpo
+unlet s:save_cpo
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
