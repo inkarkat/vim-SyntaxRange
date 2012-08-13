@@ -1,0 +1,44 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4168
+
+DESCRIPTION
+This plugin provides commands and functions to set up regions in the current
+buffer that either use a syntax different from the buffer's 'filetype', or
+completely ignore the syntax.
+
+SOURCE
+The code to include a different syntax in a region is based on
+    http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
+
+USAGE
+For quick, ad-hoc manipulation of the syntax withing a range of lines, the
+following commands are provided:
+
+:[range]SyntaxIgnore    Ignore the buffer's filetype syntax for the current
+                        line / lines in [range]. (Top-level keywords will
+                        still be highlighted.)
+                        This can be a useful fix when some text fragments
+                        confuse the syntax highlighting. (For example, when
+                        buffer syntax set to an inlined here-document is
+                        negatively affected by the foreign code surrounding
+                        the here-document.)
+
+:[range]SyntaxInclude {filetype}
+                        Use the {filetype} syntax for the current line / lines
+                        in [range].
+
+                        Line numbers in [range] are fixed; i.e. they do not
+                        adapt to inserted / deleted lines. But when in a
+                        range, the last line ($) is interpreted as "end of
+                        file".
+
+
+For finer control and use in custom mappings or syntax tweaks, the following
+functions can be used. You'll find the details directly in the
+.vim/autoload/SyntaxRange.vim implementation file.
+
+SyntaxRange#Include( startPattern, endPattern, filetype, ... )
+                        Use the {filetype} syntax for the region defined by
+                        {startPattern} and {endPattern}.
+SyntaxRange#IncludeEx( regionDefinition, filetype )
+                        Use the {filetype} syntax for the region defined by
+                        {regionDefinition}.
