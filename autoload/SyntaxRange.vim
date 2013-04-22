@@ -11,7 +11,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	001	05-Jul-2012	file creation
+"   1.00.001	05-Jul-2012	file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
