@@ -72,16 +72,16 @@ with C syntax, and make the markers themselves fade into the background: >
 To highlight inline patches inside emails: >
     :call SyntaxRange#IncludeEx('start="^changeset\|^Index: \|^diff \|^--- .*\%( ----\)\@<!$" skip="^[-+@ 	]" end="^$"', 'diff')
 To install this automatically for the "mail" filetype, put above line into a
-script in ~/.vim/after/syntax/mail/mail_SyntaxInclude.vim
+script in ~/.vim/after/syntax/mail/SyntaxInclude.vim
 
 ==============================================================================
 INSTALLATION					    *SyntaxRange-installation*
 
 This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
-    vim SyntaxRange.vba.gz
+    vim SyntaxRange*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
 
@@ -92,6 +92,13 @@ DEPENDENCIES					    *SyntaxRange-dependencies*
 ==============================================================================
 INTEGRATION					     *SyntaxRange-integration*
 
+To automatically include a syntax in a certain {filetype}, you can put the
+command into a script in >
+    ~/.vim/after/syntax/{filetype}/SyntaxInclude.vim
+If you want to include a syntax in several (or even all) syntaxes, you can put
+this into your |vimrc|: >
+    :autocmd Syntax * call SyntaxRange#Include(...)
+<
 ==============================================================================
 LIMITATIONS					     *SyntaxRange-limitations*
 
@@ -108,6 +115,11 @@ IDEAS							   *SyntaxRange-ideas*
 ==============================================================================
 HISTORY							 *SyntaxRange-history*
 
+1.01    21-Nov-2013
+Avoid "E108: No such variable: b:current_syntax" when the (misbehaving)
+included syntax doesn't set it. Reported by o2genum at
+http://stackoverflow.com/a/16162412/813602.
+
 1.00	13-Aug-2012
 First published version.
 
@@ -115,8 +127,8 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012 Ingo Karkat
-The VIM LICENSE applies to this script; see |copyright|.
+Copyright: (C) 2012-2013 Ingo Karkat
+The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
 ==============================================================================

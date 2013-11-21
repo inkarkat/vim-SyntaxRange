@@ -31,7 +31,6 @@ following commands are provided:
                         range, the last line ($) is interpreted as "end of
                         file".
 
-
 For finer control and use in custom mappings or syntax tweaks, the following
 functions can be used. You'll find the details directly in the
 .vim/autoload/SyntaxRange.vim implementation file.
@@ -42,3 +41,16 @@ SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 SyntaxRange#IncludeEx( regionDefinition, filetype )
                         Use the {filetype} syntax for the region defined by
                         {regionDefinition}.
+
+EXAMPLE
+To highlight the text between the markers
+    @begin=c@
+    int i = 42;
+    @end=c@
+with C syntax, and make the markers themselves fade into the background:
+    :call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
+
+To highlight inline patches inside emails:
+    :call SyntaxRange#IncludeEx('start="^changeset\|^Index: \|^diff \|^--- .*\%( ----\)\@<!$" skip="^[-+@       ]" end="^$"', 'diff')
+To install this automatically for the "mail" filetype, put above line into a
+script in ~/.vim/after/syntax/mail/SyntaxInclude.vim
