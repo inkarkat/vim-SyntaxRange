@@ -1,16 +1,24 @@
 " SyntaxRange.vim: Define a different filetype syntax on regions of a buffer.
 "
 " DEPENDENCIES:
+"   - ingo/range.vim autoload script
 "
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012 Ingo Karkat
+" Copyright: (C) 2012-2015 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.02.003	30-Mar-2015	Handle :.SyntaxInclude and :.SyntaxIgnore on
+"				folded lines correctly. Use
+"				ingo#range#NetStart/End().
+"   1.01.002	23-Apr-2013	Avoid "E108: No such variable: b:current_syntax"
+"				when the (misbehaving) included syntax doesn't
+"				set it. Reported by o2genum at
+"				http://stackoverflow.com/a/16162412/813602.
 "   1.00.001	05-Jul-2012	file creation
 let s:save_cpo = &cpo
 set cpo&vim
@@ -79,7 +87,7 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
     if exists('l:current_syntax')
 	let b:current_syntax = l:current_syntax
     else
-	unlet b:current_syntax
+	unlet! b:current_syntax
     endif
 
     execute printf('syntax region %s %s contains=@%s',
@@ -90,22 +98,24 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 endfunction
 
 
-function! SyntaxRange#SyntaxIgnore( startLine, endLine )
-    if a:startLine == a:endLine
-	execute printf('syntax match synIgnoreLine /\%%%dl/', a:startLine)
-    elseif a:startLine < a:endLine && a:endLine == line('$')
-	execute printf('syntax match synIgnoreLine /\%%>%dl/', (a:startLine - 1))
+function! SyntaxRange#SyntaxIgnore( startLnum, endLnum )
+    let [l:startLnum, l:endLnum] = [ingo#range#NetStart(a:startLnum), ingo#range#NetEnd(a:endLnum)]
+    if l:startLnum == l:endLnum
+	execute printf('syntax match synIgnoreLine /\%%%dl/', l:startLnum)
+    elseif l:startLnum < l:endLnum && l:endLnum == line('$')
+	execute printf('syntax match synIgnoreLine /\%%>%dl/', (l:startLnum - 1))
     else
-	execute printf('syntax match synIgnoreLine /\%%>%dl\%%<%dl/', (a:startLine - 1), (a:endLine + 1))
+	execute printf('syntax match synIgnoreLine /\%%>%dl\%%<%dl/', (l:startLnum - 1), (l:endLnum + 1))
     endif
 endfunction
 
-function! SyntaxRange#SyntaxInclude( startLine, endLine, filetype )
+function! SyntaxRange#SyntaxInclude( startLnum, endLnum, filetype )
+    let [l:startLnum, l:endLnum] = [ingo#range#NetStart(a:startLnum), ingo#range#NetEnd(a:endLnum)]
     call SyntaxRange#Include(
-    \   printf('\%%%dl', a:startLine),
-    \   (a:startLine < a:endLine && a:endLine == line('$') ?
+    \   printf('\%%%dl', l:startLnum),
+    \   (l:startLnum < l:endLnum && l:endLnum == line('$') ?
     \       '\%$' :
-    \       printf('\%%%dl', (a:endLine + 1))
+    \       printf('\%%%dl', (l:endLnum + 1))
     \   ),
     \   a:filetype
     \)
