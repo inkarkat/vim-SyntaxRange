@@ -18,6 +18,19 @@ This plugin provides commands and functions to set up regions in the current
 buffer that either use a syntax different from the buffer's 'filetype', or
 completely ignore the syntax.
 
+SEE ALSO								     *
+
+- If you also want different buffer options (like indent settings, etc.) for
+  each syntax region, the OnSyntaxChange.vim plugin (vimscript #4085) allows
+  you to dynamically change the buffer options as you move through the buffer.
+
+RELATED WORKS								     *
+
+- If the highlighting doesn't work properly, you could alternatively edit the
+  range(s) in a separate scratch buffer. Plugins like NrrwRgn (vimscript #3075)
+  provide commands to set these up, with automatic syncing back to the
+  original buffer.
+
 SOURCE									     *
 
 The code to include a different syntax in a region is based on
@@ -88,6 +101,8 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES					    *SyntaxRange-dependencies*
 
 - Requires Vim 7.0 or higher.
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.022 or
+  higher.
 
 ==============================================================================
 INTEGRATION					     *SyntaxRange-integration*
@@ -115,6 +130,15 @@ IDEAS							   *SyntaxRange-ideas*
 ==============================================================================
 HISTORY							 *SyntaxRange-history*
 
+1.02	23-Apr-2015
+- Set main_syntax to the buffer's syntax during :syntax include of the
+  subordinate syntax script. Some scripts may make special arrangements when
+  included. Suggested by OOO.
+- Handle :.SyntaxInclude and :.SyntaxIgnore on folded lines correctly. Use
+  ingo#range#NetStart/End().
+- Add dependency to ingo-library (vimscript #4433). *** You need to separately
+  install ingo-library (vimscript #4433) version 1.022 (or higher)! ***
+
 1.01    21-Nov-2013
 Avoid "E108: No such variable: b:current_syntax" when the (misbehaving)
 included syntax doesn't set it. Reported by o2genum at
@@ -127,7 +151,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2013 Ingo Karkat
+Copyright: (C) 2012-2015 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

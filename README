@@ -5,6 +5,17 @@ This plugin provides commands and functions to set up regions in the current
 buffer that either use a syntax different from the buffer's 'filetype', or
 completely ignore the syntax.
 
+SEE ALSO
+- If you also want different buffer options (like indent settings, etc.) for
+  each syntax region, the OnSyntaxChange.vim plugin (vimscript #4085) allows
+  you to dynamically change the buffer options as you move through the buffer.
+
+RELATED WORKS
+- If the highlighting doesn't work properly, you could alternatively edit the
+  range(s) in a separate scratch buffer. Plugins like NrrwRgn (vimscript #3075)
+  provide commands to set these up, with automatic syncing back to the
+  original buffer.
+
 SOURCE
 The code to include a different syntax in a region is based on
     http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
