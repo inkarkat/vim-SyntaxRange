@@ -10,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.002	13-Aug-2012	Add syntax completion to :SyntaxInclude.
 "	001	05-Jul-2012	file creation
 
 " Avoid installing twice or when in unsupported Vim version.
@@ -18,7 +19,11 @@ if exists('g:loaded_SyntaxRange') || (v:version < 700)
 endif
 let g:loaded_SyntaxRange = 1
 
-command! -bar -range          SyntaxIgnore  call SyntaxRange#SyntaxIgnore(<line1>, <line2>)
-command! -bar -range -nargs=1 SyntaxInclude call SyntaxRange#SyntaxInclude(<line1>, <line2>, <q-args>)
+command! -bar -range                           SyntaxIgnore  call SyntaxRange#SyntaxIgnore(<line1>, <line2>)
+if v:version < 703
+command! -bar -range -nargs=1                  SyntaxInclude call SyntaxRange#SyntaxInclude(<line1>, <line2>, <q-args>)
+else
+command! -bar -range -nargs=1 -complete=syntax SyntaxInclude call SyntaxRange#SyntaxInclude(<line1>, <line2>, <q-args>)
+endif
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
