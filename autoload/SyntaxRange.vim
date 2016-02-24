@@ -15,6 +15,10 @@
 "   1.02.003	30-Mar-2015	Handle :.SyntaxInclude and :.SyntaxIgnore on
 "				folded lines correctly. Use
 "				ingo#range#NetStart/End().
+"				Set main_syntax to the buffer's syntax during
+"				:syntax include of the subordinate syntax
+"				script. Some scripts may make special
+"				arrangements when included. Suggested by OOO.
 "   1.01.002	23-Apr-2013	Avoid "E108: No such variable: b:current_syntax"
 "				when the (misbehaving) included syntax doesn't
 "				set it. Reported by o2genum at
@@ -82,7 +86,16 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 	unlet b:current_syntax
     endif
 
+    if ! exists('g:main_syntax') && ! empty(&l:syntax)
+	let g:main_syntax = &l:syntax
+	let l:hasSetMainSyntax = 1
+    endif
+
     execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
+
+    if exists('l:hasSetMainSyntax')
+	unlet! g:main_syntax
+    endif
 
     if exists('l:current_syntax')
 	let b:current_syntax = l:current_syntax
