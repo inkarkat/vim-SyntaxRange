@@ -113,6 +113,23 @@ command into a script in >
 If you want to include a syntax in several (or even all) syntaxes, you can put
 this into your |vimrc|: >
     :autocmd Syntax * call SyntaxRange#Include(...)
+
+If you have a filetype1 syntax that includes filetype2 and vice versa, you
+will run into |E169|: Command too recursive. This can be solved by inclusion
+guards around each invocation. In ~/.vim/after/syntax/filetype1.vim: >
+    let b:loaded_filetype1_syntax_includes = 1
+    if !exists('b:loaded_filetype2_syntax_includes')
+        call SyntaxRange#Include('...', '...', 'filetype2')
+    endif
+    ...
+    unlet b:loaded_filetype1_syntax_includes
+And the inverse in ~/.vim/after/syntax/filetype2.vim: >
+    let b:loaded_filetype2_syntax_includes = 1
+    if !exists('b:loaded_filetype1_syntax_includes')
+        call SyntaxRange#Include('...', '...', 'filetype1')
+    endif
+    ...
+    unlet b:loaded_filetype2_syntax_includes
 <
 ==============================================================================
 LIMITATIONS					     *SyntaxRange-limitations*
@@ -151,7 +168,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2015 Ingo Karkat
+Copyright: (C) 2012-2017 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
