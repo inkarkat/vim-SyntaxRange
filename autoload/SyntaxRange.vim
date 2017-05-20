@@ -91,7 +91,14 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 	let l:hasSetMainSyntax = 1
     endif
 
-    execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
+    if ! exists('b:SyntaxRange_IncludedFiletypes')
+	let b:SyntaxRange_IncludedFiletypes = []
+    endif
+
+    if index(b:SyntaxRange_IncludedFiletypes, a:filetype) == -1
+	execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
+	call add(b:SyntaxRange_IncludedFiletypes, a:filetype)
+    endif
 
     if exists('l:hasSetMainSyntax')
 	unlet! g:main_syntax
