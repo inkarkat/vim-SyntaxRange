@@ -53,8 +53,8 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
     call SyntaxRange#IncludeEx(
     \   printf('%s keepend start="%s" end="%s" containedin=ALL',
     \       (a:0 ? 'matchgroup=' . a:1 : ''),
-    \       a:startPattern,
-    \       a:endPattern
+    \       escape(a:startPattern, '"'),
+    \       escape(a:endPattern, '"')
     \   ),
     \   a:filetype
     \)
