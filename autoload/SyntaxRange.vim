@@ -6,24 +6,10 @@
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012-2015 Ingo Karkat
+" Copyright: (C) 2012-2017 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.02.003	30-Mar-2015	Handle :.SyntaxInclude and :.SyntaxIgnore on
-"				folded lines correctly. Use
-"				ingo#range#NetStart/End().
-"				Set main_syntax to the buffer's syntax during
-"				:syntax include of the subordinate syntax
-"				script. Some scripts may make special
-"				arrangements when included. Suggested by OOO.
-"   1.01.002	23-Apr-2013	Avoid "E108: No such variable: b:current_syntax"
-"				when the (misbehaving) included syntax doesn't
-"				set it. Reported by o2genum at
-"				http://stackoverflow.com/a/16162412/813602.
-"   1.00.001	05-Jul-2012	file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -53,8 +39,8 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
     call SyntaxRange#IncludeEx(
     \   printf('%s keepend start="%s" end="%s" containedin=ALL',
     \       (a:0 ? 'matchgroup=' . a:1 : ''),
-    \       a:startPattern,
-    \       a:endPattern
+    \       escape(a:startPattern, '"'),
+    \       escape(a:endPattern, '"')
     \   ),
     \   a:filetype
     \)
@@ -91,7 +77,14 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 	let l:hasSetMainSyntax = 1
     endif
 
-    execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
+    if ! exists('b:SyntaxRange_IncludedFiletypes')
+	let b:SyntaxRange_IncludedFiletypes = []
+    endif
+
+    if index(b:SyntaxRange_IncludedFiletypes, a:filetype) == -1
+	execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
+	call add(b:SyntaxRange_IncludedFiletypes, a:filetype)
+    endif
 
     if exists('l:hasSetMainSyntax')
 	unlet! g:main_syntax

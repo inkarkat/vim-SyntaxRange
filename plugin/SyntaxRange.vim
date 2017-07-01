@@ -4,14 +4,10 @@
 "   - Requires Vim 7.0 or higher.
 "   - SyntaxRange.vim autoload script
 "
-" Copyright: (C) 2012 Ingo Karkat
+" Copyright: (C) 2012-2017 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.00.002	13-Aug-2012	Add syntax completion to :SyntaxInclude.
-"	001	05-Jul-2012	file creation
 
 " Avoid installing twice or when in unsupported Vim version.
 if exists('g:loaded_SyntaxRange') || (v:version < 700)
