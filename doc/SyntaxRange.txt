@@ -89,11 +89,16 @@ script in ~/.vim/after/syntax/mail/SyntaxInclude.vim
 
 ==============================================================================
 INSTALLATION					    *SyntaxRange-installation*
+The code is hosted in a Git repo at
+    https://github.com/inkarkat/vim-SyntaxRange
+You can use your favorite plugin manager, or "git clone" into a directory used
+for Vim |packages|. Releases are on the "stable" branch, the latest unstable
+development snapshot on "master".
 
-This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
-the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
-vimball or via the |:UseVimball| command. >
+This script is also packaged as a |vimball|. If you have the "gunzip"
+decompressor in your PATH, simply edit the *.vmb.gz package in Vim; otherwise,
+decompress the archive first, e.g. using WinZip. Inside Vim, install by
+sourcing the vimball or via the |:UseVimball| command. >
     vim SyntaxRange*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
@@ -144,8 +149,21 @@ TODO							    *SyntaxRange-todo*
 
 IDEAS							   *SyntaxRange-ideas*
 
+CONTRIBUTING					      *SyntaxRange-contribute*
+
+Report any bugs, send patches, or suggest features via the issue tracker at
+https://github.com/inkarkat/vim-SyntaxRange/issues or email (address below).
+
 ==============================================================================
 HISTORY							 *SyntaxRange-history*
+
+1.03	01-Jul-2017
+- SyntaxRange#Include(): Escape double quotes in a:startPattern and
+  a:endPattern; i.e. handle the patterns transparently. Found in tmsanrinsha's
+  fork.
+- ENH: Avoid to re-include same syntax file if multiple ranges are specified
+  with :SyntaxInclude / if SyntaxRange#Include[Ex]() is invoked multiple times
+  per buffer. Found in tmsanrinsha's fork.
 
 1.02	23-Apr-2015
 - Set main_syntax to the buffer's syntax during :syntax include of the

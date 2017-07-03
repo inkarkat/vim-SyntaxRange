@@ -6,24 +6,10 @@
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012-2015 Ingo Karkat
+" Copyright: (C) 2012-2017 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.02.003	30-Mar-2015	Handle :.SyntaxInclude and :.SyntaxIgnore on
-"				folded lines correctly. Use
-"				ingo#range#NetStart/End().
-"				Set main_syntax to the buffer's syntax during
-"				:syntax include of the subordinate syntax
-"				script. Some scripts may make special
-"				arrangements when included. Suggested by OOO.
-"   1.01.002	23-Apr-2013	Avoid "E108: No such variable: b:current_syntax"
-"				when the (misbehaving) included syntax doesn't
-"				set it. Reported by o2genum at
-"				http://stackoverflow.com/a/16162412/813602.
-"   1.00.001	05-Jul-2012	file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
