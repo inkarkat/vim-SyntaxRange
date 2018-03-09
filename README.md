@@ -164,14 +164,14 @@ HISTORY
 
 ##### 1.04    RELEASEME
 - Allow setting additional contains groups via an optional argument to
-  SyntaxRange#Include[Ex](). Thanks to Sergey Vlasov for sending a patch.
+  SyntaxRange#Include\[Ex](). Thanks to Sergey Vlasov for sending a patch.
 
 ##### 1.03    01-Jul-2017
 - SyntaxRange#Include(): Escape double quotes in a:startPattern and
   a:endPattern; i.e. handle the patterns transparently. Found in tmsanrinsha's
   fork.
 - ENH: Avoid to re-include same syntax file if multiple ranges are specified
-  with :SyntaxInclude / if SyntaxRange#Include[Ex]() is invoked multiple times
+  with :SyntaxInclude / if SyntaxRange#Include\[Ex]() is invoked multiple times
   per buffer. Found in tmsanrinsha's fork.
 
 ##### 1.02    23-Apr-2015
