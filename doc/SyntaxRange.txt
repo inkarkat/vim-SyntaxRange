@@ -65,12 +65,16 @@ For finer control and use in custom mappings or syntax tweaks, the following
 functions can be used. You'll find the details directly in the
 .vim/autoload/SyntaxRange.vim implementation file.
 
-SyntaxRange#Include( startPattern, endPattern, filetype, ... )
+SyntaxRange#Include( {startPattern}, {endPattern}, {filetype} [, {matchGroup} [, {contains}]] )
 			Use the {filetype} syntax for the region defined by
-			{startPattern} and {endPattern}.
-SyntaxRange#IncludeEx( regionDefinition, filetype )
+			{startPattern} and {endPattern}. Optionally highlight
+			{startPattern} and {endPattern} itself with
+			{matchGroup}, and additionally allow {contains} groups
+			inside the region.
+SyntaxRange#IncludeEx( {regionDefinition}, {filetype} [, {contains}] )
 			Use the {filetype} syntax for the region defined by
-			{regionDefinition}.
+			{regionDefinition}. Additionally allow {contains}
+			groups inside the region.
 
 EXAMPLE							 *SyntaxRange-example*
 
@@ -157,6 +161,10 @@ https://github.com/inkarkat/vim-SyntaxRange/issues or email (address below).
 ==============================================================================
 HISTORY							 *SyntaxRange-history*
 
+1.04	RELEASEME
+- Allow setting additional contains groups via an optional argument to
+  SyntaxRange#Include[Ex](). Thanks to Sergey Vlasov for sending a patch.
+
 1.03	01-Jul-2017
 - SyntaxRange#Include(): Escape double quotes in a:startPattern and
   a:endPattern; i.e. handle the patterns transparently. Found in tmsanrinsha's
@@ -186,7 +194,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2017 Ingo Karkat
+Copyright: (C) 2012-2018 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

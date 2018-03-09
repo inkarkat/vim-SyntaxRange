@@ -24,8 +24,7 @@ completely ignore the syntax.
 
 ### SOURCE
 
-The code to include a different syntax in a region is based on
-    http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
+- [The code to include a different syntax in a region is based on](http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file)
 
 USAGE
 ------------------------------------------------------------------------------
@@ -55,12 +54,16 @@ USAGE
     functions can be used. You'll find the details directly in the
     .vim/autoload/SyntaxRange.vim implementation file.
 
-    SyntaxRange#Include( startPattern, endPattern, filetype, ... )
+    SyntaxRange#Include( {startPattern}, {endPattern}, {filetype} [, {matchGroup} [, {contains}]] )
                             Use the {filetype} syntax for the region defined by
-                            {startPattern} and {endPattern}.
-    SyntaxRange#IncludeEx( regionDefinition, filetype )
+                            {startPattern} and {endPattern}. Optionally highlight
+                            {startPattern} and {endPattern} itself with
+                            {matchGroup}, and additionally allow {contains} groups
+                            inside the region.
+    SyntaxRange#IncludeEx( {regionDefinition}, {filetype} [, {contains}] )
                             Use the {filetype} syntax for the region defined by
-                            {regionDefinition}.
+                            {regionDefinition}. Additionally allow {contains}
+                            groups inside the region.
 
 ### EXAMPLE
 
@@ -151,6 +154,10 @@ https://github.com/inkarkat/vim-SyntaxRange/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
+##### 1.04    RELEASEME
+- Allow setting additional contains groups via an optional argument to
+  SyntaxRange#Include[Ex](). Thanks to Sergey Vlasov for sending a patch.
+
 ##### 1.03    01-Jul-2017
 - SyntaxRange#Include(): Escape double quotes in a:startPattern and
   a:endPattern; i.e. handle the patterns transparently. Found in tmsanrinsha's
@@ -180,7 +187,7 @@ http://stackoverflow.com/a/16162412/813602.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2017 Ingo Karkat -
+Copyright: (C) 2012-2018 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat <ingo@karkat.de>

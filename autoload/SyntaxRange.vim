@@ -6,7 +6,7 @@
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012-2017 Ingo Karkat
+" Copyright: (C) 2012-2018 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -33,6 +33,9 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
 "   a:filetype      The filetype syntax to use in the region.
 "   a:matchGroup    Optional highlight group for the a:startPattern and
 "		    a:endPattern matches themselves |:syn-matchgroup|.
+"   a:contains      Optional list of syntax groups allowed to begin inside the
+"		    region |:syn-contains|. Pass "@Spell" to enable spell
+"		    checking inside the region.
 "* RETURN VALUES:
 "   None.
 "******************************************************************************
@@ -42,10 +45,11 @@ function! SyntaxRange#Include( startPattern, endPattern, filetype, ... )
     \       escape(a:startPattern, '"'),
     \       escape(a:endPattern, '"')
     \   ),
-    \   a:filetype
+    \   a:filetype,
+    \   (a:0 >= 2 ? a:2 : '')
     \)
 endfunction
-function! SyntaxRange#IncludeEx( regionDefinition, filetype )
+function! SyntaxRange#IncludeEx( regionDefinition, filetype, ... )
 "******************************************************************************
 "* PURPOSE:
 "   Define a syntax region from a:regionDefinition that includes the syntax for
@@ -60,6 +64,9 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 "   a:regionDefinition  |:syn-region| definition with at least |:syn-start| and
 "			|:syn-end|.
 "   a:filetype      The filetype syntax to use in the region.
+"   a:contains      Optional list of syntax groups allowed to begin inside the
+"		    region |:syn-contains|. Pass "@Spell" to enable spell
+"		    checking inside the region.
 "* RETURN VALUES:
 "   None.
 "******************************************************************************
@@ -96,10 +103,11 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype )
 	unlet! b:current_syntax
     endif
 
-    execute printf('syntax region %s %s contains=@%s',
+    execute printf('syntax region %s %s contains=@%s%s',
     \   l:syntaxGroup,
     \   a:regionDefinition,
-    \   l:syntaxGroup
+    \   l:syntaxGroup,
+    \   (a:0 ? ',' . a:1 : ''),
     \)
 endfunction
 
