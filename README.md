@@ -67,11 +67,18 @@ USAGE
 
 ### EXAMPLE
 
-To highlight the text between the markers
+To highlight the text between the markers with C syntax:
     @begin=c@
     int i = 42;
     @end=c@
-with C syntax, and make the markers themselves fade into the background:
+
+To do this statically, with fixed line numbers, for the first occurrence in
+the file:
+
+    :1;/@begin=c@/,/@end=c@/SyntaxInclude c
+
+The dynamic version will apply to all occurrences, handles changes in the line
+numbers, and also can make the markers themselves fade into the background:
 
     :call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 
@@ -84,6 +91,7 @@ script in ~/.vim/after/syntax/mail/SyntaxInclude.vim
 
 INSTALLATION
 ------------------------------------------------------------------------------
+
 The code is hosted in a Git repo at
     https://github.com/inkarkat/vim-SyntaxRange
 You can use your favorite plugin manager, or "git clone" into a directory used
