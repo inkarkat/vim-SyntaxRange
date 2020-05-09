@@ -1,4 +1,4 @@
-SYNTAX RANGE   
+SYNTAX RANGE
 ===============================================================================
 _by Ingo Karkat_
 
@@ -68,9 +68,11 @@ USAGE
 ### EXAMPLE
 
 To highlight the text between the markers with C syntax:
+```
     @begin=c@
     int i = 42;
     @end=c@
+```
 
 To do this statically, with fixed line numbers, for the first occurrence in
 the file:
@@ -165,6 +167,9 @@ HISTORY
 ##### 1.04    RELEASEME
 - Allow setting additional contains groups via an optional argument to
   SyntaxRange#Include\[Ex](). Thanks to Sergey Vlasov for sending a patch.
+- Rename the re-inclusion guard from b:SyntaxInclude\_IncludedFiletypes (List)
+  to b:SyntaxInclude\_Included (Dict). Handle buffer reload via :edit by making
+  it dependent on b:changedtick as well.
 
 ##### 1.03    01-Jul-2017
 - SyntaxRange#Include(): Escape double quotes in a:startPattern and
@@ -180,7 +185,9 @@ HISTORY
   included. Suggested by OOO.
 - Handle :.SyntaxInclude and :.SyntaxIgnore on folded lines correctly. Use
   ingo#range#NetStart/End().
-- Add dependency to ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)). __You need to separately
+- Add dependency to ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)).
+
+__You need to separately
   install ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)) version 1.022 (or higher)!__
 
 ##### 1.01    21-Nov-2013
@@ -195,7 +202,7 @@ http://stackoverflow.com/a/16162412/813602.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2018 Ingo Karkat -
+Copyright: (C) 2012-2020 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
-Maintainer:     Ingo Karkat <ingo@karkat.de>
+Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;

@@ -171,6 +171,9 @@ HISTORY							 *SyntaxRange-history*
 1.04	RELEASEME
 - Allow setting additional contains groups via an optional argument to
   SyntaxRange#Include[Ex](). Thanks to Sergey Vlasov for sending a patch.
+- Rename the re-inclusion guard from b:SyntaxInclude_IncludedFiletypes (List)
+  to b:SyntaxInclude_Included (Dict). Handle buffer reload via :edit by making
+  it dependent on b:changedtick as well.
 
 1.03	01-Jul-2017
 - SyntaxRange#Include(): Escape double quotes in a:startPattern and
@@ -201,7 +204,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2018 Ingo Karkat
+Copyright: (C) 2012-2020 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

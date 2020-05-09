@@ -6,7 +6,7 @@
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012-2018 Ingo Karkat
+" Copyright: (C) 2012-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -84,13 +84,13 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype, ... )
 	let l:hasSetMainSyntax = 1
     endif
 
-    if ! exists('b:SyntaxRange_IncludedFiletypes')
-	let b:SyntaxRange_IncludedFiletypes = []
+    if ! exists('b:SyntaxRange_Included') || b:SyntaxRange_Included.changedtick != b:changedtick
+	let b:SyntaxRange_Included = {'changedtick': b:changedtick, 'filetypes': []}
     endif
 
-    if index(b:SyntaxRange_IncludedFiletypes, a:filetype) == -1
+    if index(b:SyntaxRange_Included.filetypes, a:filetype) == -1
 	execute printf('syntax include @%s syntax/%s.vim', l:syntaxGroup, a:filetype)
-	call add(b:SyntaxRange_IncludedFiletypes, a:filetype)
+	call add(b:SyntaxRange_Included.filetypes, a:filetype)
     endif
 
     if exists('l:hasSetMainSyntax')
