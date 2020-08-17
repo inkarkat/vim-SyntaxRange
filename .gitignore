@@ -3,3 +3,4 @@
 *.tap
 doc/*.description
 doc/*.install
+doc/tags
