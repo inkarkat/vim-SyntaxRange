@@ -6,7 +6,7 @@
 " Source:
 "   http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 "
-" Copyright: (C) 2012-2020 Ingo Karkat
+" Copyright: (C) 2012-2021 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -107,7 +107,7 @@ function! SyntaxRange#IncludeEx( regionDefinition, filetype, ... )
     \   l:syntaxGroup,
     \   a:regionDefinition,
     \   l:syntaxGroup,
-    \   (a:0 ? ',' . a:1 : ''),
+    \   (a:0 && ! empty(a:1) ? ',' . a:1 : '')
     \)
 endfunction
 
