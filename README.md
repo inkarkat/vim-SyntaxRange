@@ -164,7 +164,7 @@ https://github.com/inkarkat/vim-SyntaxRange/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.04    RELEASEME
+##### 1.04    13-Nov-2024
 - Allow setting additional contains groups via an optional argument to
   SyntaxRange#Include\[Ex](). Thanks to Sergey Vlasov for sending a patch.
 - Rename the re-inclusion guard from b:SyntaxInclude\_IncludedFiletypes (List)
@@ -202,7 +202,7 @@ http://stackoverflow.com/a/16162412/813602.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2020 Ingo Karkat -
+Copyright: (C) 2012-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
